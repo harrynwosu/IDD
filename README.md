@@ -1,5 +1,26 @@
 # IDD Project Site
 
+## Overview
+
+For right now, you should only be worried about the following files/directories:
+
+```
+src/
+├── components/
+├── pages/
+├── styles/
+├── App.jsx
+├── App.css
+└── main.jsx
+```
+
+- The `components` directory contains the building blocks used for the site
+- The `pages` directory contains the layout of the different pages (Home, About, Services, etc.). It basically uses the building blocks from `components` to lay the different pages out.
+- The `styles` directory contains CSS styles for almost everything. Each component/page might have its own styles file which defines the styles used in that file.
+
+
+## Testing
+
 For testing purposes for now, follow the following steps
 
 1. Open VSCode and open the terminal. ``Cmd + ` ``  on Mac or  ``Ctrl + ` ``   on Windows
