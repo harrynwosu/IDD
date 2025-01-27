@@ -50,7 +50,7 @@ const SearchForm = () => {
                     />
                 </div>
             </div>
-            <button type='submit'>Submit</button>
+            <button type='submit'>Search</button>
         </form>
     );
 };
