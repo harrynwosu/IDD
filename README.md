@@ -2,7 +2,7 @@
 
 ## Overview
 
-For right now, you should only be worried about the following files/directories:
+For right now, you should only be worried about the following files/directories. Almost everything else is boilerplate:
 
 ```
 src/
@@ -14,7 +14,7 @@ src/
 └── main.jsx
 ```
 
-- The `components` directory contains the building blocks used for the site
+- The `components` directory contains the building blocks used for the site.
 - The `pages` directory contains the layout of the different pages (Home, About, Services, etc.). It basically uses the building blocks from `components` to lay the different pages out.
 - The `styles` directory contains CSS styles for almost everything. Each component/page might have its own styles file which defines the styles used in that file.
 
