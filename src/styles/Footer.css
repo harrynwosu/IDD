@@ -1,7 +1,14 @@
 .footer {
-    background-color: #f5f5f5;
     padding: 40px 0;
     flex-shrink: 0;
+}
+
+.help-center ~ .footer {
+    background-color: #ffffff;
+}
+
+.search-form ~ .footer {
+    background-color: #f5f5f5;
 }
 
 .footer-container {
