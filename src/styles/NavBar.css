@@ -6,7 +6,7 @@ nav {
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    padding: 2rem 0;
+    padding: 1rem 0;
     width: 100%;
     background-color: rgba(255, 255, 255, 0.8);
     z-index: 30;
@@ -16,19 +16,51 @@ nav ul {
     display: flex;
     list-style: none;
     margin: 0;
-    padding: 0 2rem;
+    padding: 0 1rem;
 }
 
 nav li {
-    margin: 0 1rem;
+    margin: 0 0.5rem;
 }
 
 nav a {
-    /* color: #fff; */
     text-decoration: none;
     transition: color 0.3s ease-in-out;
 }
 
 nav a:hover {
     color: #ccc;
+}
+
+/* Media Queries for Smaller Screens */
+@media (max-width: 767px) {
+    nav {
+        justify-content: center;
+        padding: 0.5rem 0;
+    }
+
+    nav ul {
+        flex-direction: column;
+        align-items: center;
+        padding: 0;
+    }
+
+    nav li {
+        margin: 0.5rem 0;
+    }
+}
+
+/* Media Queries for Larger Screens */
+@media (min-width: 768px) {
+    nav {
+        padding: 2rem 0;
+    }
+
+    nav ul {
+        padding: 0 2rem;
+    }
+
+    nav li {
+        margin: 0 1rem;
+    }
 }
