@@ -5,6 +5,12 @@
     width: 100%;
 }
 
+@media (max-width: 767px) {
+    .help-center {
+        margin-top: 16em;
+    }
+}
+
 .hero {
     background-color: #2563eb;
     padding: 6rem 1rem;
