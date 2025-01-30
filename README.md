@@ -66,6 +66,10 @@ For testing purposes for now, follow the following steps
 2. You might need to create your own Google Maps API key to see the map on the `Services` page. We just have a standard map centered at Chicago for now as a placeholder. That requires a whole different process of setup but I might be able to help if you need to see it and run into any problems getting it to work.
 3. This is what it looks like on my machine at the moment:
 
+***Note: Recently switched to OpenStreetMaps (OSM) which is free instead of the Google Maps API that may incure costs in the long run, since this is just a placeholder anyway. So the current map might look a little different from what you see below.***
+
+
+
 <img width="1439" alt="image" src="https://github.com/user-attachments/assets/c1523e7c-de89-47b4-8994-f15454b430a3" />
 
 
