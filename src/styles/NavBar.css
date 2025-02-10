@@ -2,65 +2,95 @@ nav {
     position: fixed;
     top: 0;
     left: 0;
-    border-bottom: 1px solid #333;
+    border-bottom: 1px solid #eaeaea;
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    padding: 1rem 0;
+    padding: 1.5rem 2rem;
     width: 100%;
-    background-color: rgba(255, 255, 255, 0.8);
+    background-color: rgba(255, 255, 255, 0.95);
     z-index: 30;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    box-sizing: border-box; /* Add this to include padding in width calculation */
 }
 
 nav ul {
     display: flex;
     list-style: none;
     margin: 0;
-    padding: 0 1rem;
+    padding: 0;
+    gap: 3rem;
 }
 
 nav li {
-    margin: 0 0.5rem;
+    margin: 0;
+    padding: 0.5rem 0;
 }
 
 nav a {
     text-decoration: none;
-    transition: color 0.3s ease-in-out;
+    color: #333;
+    font-size: 1.1rem;
+    font-weight: 500;
+    transition: all 0.3s ease-in-out;
+    padding: 0.5rem 0;
+    position: relative;
+    white-space: nowrap; /* Prevent text wrapping */
+}
+
+/* Underline effect on hover */
+nav a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background-color: #6b46c1;
+    transition: width 0.3s ease-in-out;
 }
 
 nav a:hover {
-    color: #ccc;
+    color: #6b46c1;
+}
+
+nav a:hover::after {
+    width: 100%;
 }
 
 /* Media Queries for Smaller Screens */
 @media (max-width: 767px) {
     nav {
         justify-content: center;
-        padding: 0.5rem 0;
+        padding: 1rem;
     }
 
     nav ul {
         flex-direction: column;
         align-items: center;
-        padding: 0;
+        gap: 1.5rem;
     }
 
     nav li {
-        margin: 0.5rem 0;
+        margin: 0;
+        padding: 0.3rem 0;
+    }
+
+    nav a {
+        font-size: 1rem;
     }
 }
 
 /* Media Queries for Larger Screens */
 @media (min-width: 768px) {
     nav {
-        padding: 2rem 0;
+        padding: 1.5rem 3rem; /* Reduced horizontal padding */
     }
+}
 
-    nav ul {
-        padding: 0 2rem;
-    }
-
-    nav li {
-        margin: 0 1rem;
+/* For even larger screens */
+@media (min-width: 1200px) {
+    nav {
+        padding: 1.5rem 4rem; /* Reduced horizontal padding */
     }
 }

@@ -7,11 +7,9 @@ import {
 import { useEffect } from 'react';
 import Navbar from './components/Navbar';
 import HomePage from './pages/HomePage';
-import AboutPage from './pages/AboutPage';
 import ServicesPage from './pages/ServicesPage';
 import ResourcesPage from './pages/ResourcesPage';
 import ContactPage from './pages/ContactPage';
-import SupportPage from './pages/SupportPage';
 import Footer from './components/Footer';
 import './App.css';
 
@@ -39,10 +37,6 @@ function App() {
                         element={<HomePage />}
                     />
                     <Route
-                        path='/about'
-                        element={<AboutPage />}
-                    />
-                    <Route
                         path='/services'
                         element={<ServicesPage />}
                     />
@@ -53,10 +47,6 @@ function App() {
                     <Route
                         path='/contact'
                         element={<ContactPage />}
-                    />
-                    <Route
-                        path='/support'
-                        element={<SupportPage />}
                     />
                 </Routes>
                 <Footer />

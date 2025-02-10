@@ -17,10 +17,7 @@ const SearchForm = () => {
             className='search-form'
             onSubmit={handleSubmit}
         >
-            <h2>
-                To Help Locate What You Are Looking For Please Enter The
-                Following:
-            </h2>
+            <h2>Find Providers Near You</h2>
             <div className='form-row'>
                 <div className='form-group'>
                     <label htmlFor='keyword'>What Are You Looking For</label>
