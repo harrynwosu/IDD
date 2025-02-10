@@ -1,7 +1,7 @@
 import HeroImage from '../../public/idd-homepage.png';
 import AboutImage from '../../public/about-us-idd.png';
 
-import '../styles/HomePage.css';
+import '../styles/Homepage.css';
 
 const HomePage = () => {
     return (
