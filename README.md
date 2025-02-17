@@ -66,7 +66,9 @@ For testing purposes for now, follow the following steps
 2. You might need to create your own Google Maps API key to see the map on the `Services` page. We just have a standard map centered at Chicago for now as a placeholder. That requires a whole different process of setup but I might be able to help if you need to see it and run into any problems getting it to work.
 3. This is what it looks like on my machine at the moment:
 
-***Note: Recently switched to OpenStreetMaps (OSM) which is free instead of the Google Maps API that may incure costs in the long run, since this is just a placeholder anyway. So the current map might look a little different from what you see below.***
+
+> [!NOTE]  
+> Recently switched to OpenStreetMaps (OSM) which is free instead of the Google Maps API that may incure costs in the long run, since this is just a placeholder anyway. So the current map might look a little different from what you see below
 
 
 
@@ -76,6 +78,40 @@ For testing purposes for now, follow the following steps
 
 <img width="1431" alt="image" src="https://github.com/user-attachments/assets/5b3de176-b678-4552-8f89-2f3791ef3f3e" />
 
+
+## Making Changes to the Main Site
+
+> [!IMPORTANT]  
+> You'll need write access to the repo, so hit me up for that. I'll try my best to respond asap.
+
+To push your local changes to this main repo, take the following steps in the VSCode terminal:
+
+> [!CAUTION]
+> Please only push things that work, so as not to break things. Try not to delete any already existing stuff without confirming your changes with the rest of the team. If you're not entirely sure of your changes, feel free to reach out to me.
+
+1. Add your current changes to the staging area.
+
+   ```
+   git add .
+   ```
+
+   Although not necessary, you can try this before the next step (committing) to see a list of the files that you modified or created, jsut to confirm it's what you intend.
+
+   ```
+   git status
+   ```
+
+3. Commit your changes. Replace `{anything goes here}` with a relevant commit message. It's not too important but try to make it a very short (few words) description of the changes you're about to push.
+
+   ```
+   git commit -m "{anything goes here}"
+   ```
+
+4. Push your changes to the remote repo.
+
+   ```
+   git push
+   ```
 
 
 
