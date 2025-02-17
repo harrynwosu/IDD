@@ -2,47 +2,80 @@ import '../styles/Footer.css';
 
 const Footer = () => {
     return (
-        <footer className='footer'>
-            <div className='footer-container'>
-                <div className='footer-section'>
-                    <h3>Use cases</h3>
-                    <ul>
-                        <li>UI design</li>
-                        <li>UX design</li>
-                        <li>Wireframing</li>
-                        <li>Diagramming</li>
-                        <li>Brainstorming</li>
-                        <li>Online whiteboard</li>
-                        <li>Team collaboration</li>
-                    </ul>
+        <div style={{ 
+            width: '100%', 
+            height: 233, 
+            background: 'white', 
+            borderTop: '1px #B3B3B3 solid', 
+            display: 'flex', 
+            flexDirection: 'column', 
+            alignItems: 'center', 
+            justifyContent: 'space-evenly', 
+            padding: '20px 0' 
+        }}>
+            {/* Keystone Alliance at the top */}
+            <div style={{ 
+                width: 424, 
+                height: 72, 
+                textAlign: 'center', 
+                color: 'black', 
+                fontSize: 36, 
+                fontFamily: 'Inter', 
+                fontWeight: '700', 
+                lineHeight: '50.40px', 
+                wordWrap: 'break-word' 
+            }}>
+                Keystone Alliance
+            </div>
+            
+            {/* Directory, Account, and Support in a row */}
+            <div style={{ 
+                display: 'flex', 
+                justifyContent: 'space-evenly', 
+                width: '100%' 
+            }}>
+                <div style={{ 
+                    width: 186, 
+                    height: 62, 
+                    textAlign: 'center', 
+                    color: 'black', 
+                    fontSize: 24, 
+                    fontFamily: 'Inter', 
+                    fontWeight: '400', 
+                    lineHeight: '33.60px', 
+                    wordWrap: 'break-word' 
+                }}>
+                    Directory
                 </div>
-                <div className='footer-section'>
-                    <h3>Explore</h3>
-                    <ul>
-                        <li>Design</li>
-                        <li>Prototyping</li>
-                        <li>Development features</li>
-                        <li>Design systems</li>
-                        <li>Collaboration features</li>
-                        <li>Design process</li>
-                        <li>FigJam</li>
-                    </ul>
+                <div style={{ 
+                    width: 186, 
+                    height: 62, 
+                    textAlign: 'center', 
+                    color: 'black', 
+                    fontSize: 24, 
+                    fontFamily: 'Inter', 
+                    fontWeight: '400', 
+                    lineHeight: '33.60px', 
+                    wordWrap: 'break-word' 
+                }}>
+                    Account
                 </div>
-                <div className='footer-section'>
-                    <h3>Resources</h3>
-                    <ul>
-                        <li>Blog</li>
-                        <li>Best practices</li>
-                        <li>Colors</li>
-                        <li>Color wheel</li>
-                        <li>Support</li>
-                        <li>Developers</li>
-                        <li>Resource library</li>
-                    </ul>
+                <div style={{ 
+                    width: 186, 
+                    height: 62, 
+                    textAlign: 'center', 
+                    color: 'black', 
+                    fontSize: 24, 
+                    fontFamily: 'Inter', 
+                    fontWeight: '400', 
+                    lineHeight: '33.60px', 
+                    wordWrap: 'break-word' 
+                }}>
+                    Support
                 </div>
             </div>
-        </footer>
+        </div>
     );
-};
+}
 
 export default Footer;

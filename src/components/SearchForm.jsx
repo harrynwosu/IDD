@@ -8,6 +8,9 @@ const SearchForm = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        // Handle form submission logic here
+        console.log('Keyword:', keyword);
+        console.log('County:', county);
 
         // TODO: implement search functionality
     };
@@ -21,21 +24,29 @@ const SearchForm = () => {
             <div className='form-row'>
                 <div className='form-group'>
                     <label htmlFor='keyword'>What Are You Looking For</label>
-                    <input
-                        type='text'
+                    <select
                         id='keyword'
                         value={keyword}
                         onChange={(e) => setKeyword(e.target.value)}
-                    />
+                    >
+                        <option value=''>Select an option</option>
+                        <option value='health'>Health</option>
+                        <option value='education'>Education</option>
+                        <option value='legal'>Legal</option>
+                    </select>
                 </div>
                 <div className='form-group'>
                     <label htmlFor='county'>County</label>
-                    <input
-                        type='text'
+                    <select
                         id='county'
                         value={county}
                         onChange={(e) => setCounty(e.target.value)}
-                    />
+                    >
+                        <option value=''>Select a county</option>
+                        <option value='county1'>County 1</option>
+                        <option value='county2'>County 2</option>
+                        <option value='county3'>County 3</option>
+                    </select>
                 </div>
                 <div className='form-group'>
                     <label htmlFor='zipCode'>Zip Code</label>
