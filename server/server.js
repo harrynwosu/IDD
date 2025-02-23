@@ -1,16 +1,15 @@
 import express from 'express';
 import cors from 'cors';
-import { getGeocodedData, startGeocodeCron } from './geocodeJob.js';
+import { getGeocodedData } from './geocodeJob.js';
 
 const app = express();
 const PORT = 4000;
 
 app.use(cors());
 
-// 1) Serve geocoded data via an endpoint
+// Endpoint for serving geocoded data
 app.get('/api/providers', async (req, res) => {
     try {
-        // This reads from a DB or from an in-memory / JSON store
         const data = await getGeocodedData();
         res.json(data); // Send the array of providers (with lat/lng)
     } catch (error) {
@@ -19,10 +18,11 @@ app.get('/api/providers', async (req, res) => {
     }
 });
 
-// 2) Start the cron job that updates data daily/weekly
-startGeocodeCron();
+// Start the cron job that automatically updates data daily/weekly
+// If needed, uncomment the next line
+// startGeocodeCron();
 
-// Optionally serve your React build
+// Serve React build
 // app.use(express.static(path.join(__dirname, '../client/build')));
 // app.get('*', (req, res) => {
 //   res.sendFile(path.resolve(__dirname, '../client/build', 'index.html'));

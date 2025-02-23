@@ -8,17 +8,16 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Path to your CSV
+// Path to CSV file
 const CSV_PATH = path.join(__dirname, 'data', 'combined_service_providers.csv');
 
-// Path to store geocoded data in JSON (if not using a DB)
+// Path to store geocoded data in JSON
 const OUTPUT_JSON = path.join(__dirname, 'data', 'geocoded-providers.json');
 
-// Simple geocoding function using Nominatim
+// Geocoding function using Nominatim by OpenStreetMaps
 async function geocodeAddress(streetAddress, city) {
     if (!streetAddress || !city) return null;
 
-    // Build query string
     const params = new URLSearchParams({
         q: `${streetAddress}, ${city}`,
         format: 'json',
@@ -27,7 +26,6 @@ async function geocodeAddress(streetAddress, city) {
     });
 
     try {
-        // Include a custom User-Agent or Nominatim may block requests
         const response = await fetch(
             `https://nominatim.openstreetmap.org/search?${params.toString()}`,
             {
@@ -51,14 +49,14 @@ async function geocodeAddress(streetAddress, city) {
     return null;
 }
 
-// Example job function: read CSV, geocode, save JSON
+// Main function for processing data
 async function geocodeAllProviders() {
     console.log('Starting geocode job...');
     try {
-        // 1) Read CSV file
+        // Read CSV file
         const csvText = fs.readFileSync(CSV_PATH, 'utf-8');
 
-        // 2) Parse CSV
+        // Parse CSV
         const result = Papa.parse(csvText, {
             header: true,
             skipEmptyLines: true,
@@ -70,7 +68,7 @@ async function geocodeAllProviders() {
             return [];
         }
 
-        // 3) Geocode each row
+        // Geocode each provider
         const geocodedProviders = [];
         for (let i = 0; i < rawProviders.length; i++) {
             const provider = rawProviders[i];
@@ -87,11 +85,11 @@ async function geocodeAllProviders() {
                 });
             }
 
-            // 1-second delay to respect Nominatim usage policy
+            // 1-second delay to respect Nominatim usage policy on rate limits
             await new Promise((res) => setTimeout(res, 1000));
         }
 
-        // 4) Save to JSON file
+        // Save to JSON file
         fs.writeFileSync(
             OUTPUT_JSON,
             JSON.stringify(geocodedProviders, null, 2)
@@ -106,7 +104,7 @@ async function geocodeAllProviders() {
     }
 }
 
-// Optional: keep an in-memory store so we can serve data without re-reading from file
+// In-memory store for serving data without re-reading from file
 let cachedProviders = [];
 
 // Refresh data from JSON file
@@ -127,7 +125,9 @@ function loadDataFromJSON() {
     }
 }
 
-// 5) A function the server can call to get geocoded data
+/**
+ * Callable function to get geocoded data
+ */
 export async function getGeocodedData() {
     // If you want to read from the file every time, you could do so here:
     loadDataFromJSON();
@@ -136,6 +136,9 @@ export async function getGeocodedData() {
     return cachedProviders;
 }
 
+/**
+ * Utility function for automated job running if needed
+ */
 export function startGeocodeCron() {
     // First, load existing data from JSON at startup
     loadDataFromJSON();
@@ -150,4 +153,5 @@ export function startGeocodeCron() {
     });
 }
 
+// Run this job from the terminal with `node geocodeJob.js`
 geocodeAllProviders();
