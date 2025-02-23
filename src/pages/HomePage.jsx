@@ -1,5 +1,5 @@
-import HeroImage from '../../public/idd-homepage.png';
-import AboutImage from '../../public/about-us-idd.png';
+import HeroImage from '/idd-homepage.png';
+import AboutImage from '/about-us-idd.png';
 
 import '../styles/Homepage.css';
 

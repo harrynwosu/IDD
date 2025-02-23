@@ -1,46 +1,133 @@
 .footer {
-    width: 100%;
-    position: relative;
-    background-color: #fff;
-    border-top: 1px solid #b3b3b3;
-    box-sizing: border-box;
-    padding: 20px 0;
-    text-align: center;
-    font-size: 1.5rem; /* Adjusted for responsiveness */
-    color: #000;
-    font-family: Inter, sans-serif;
+    /* background-color: #1f2937; */
+    background-color: #2563eb;
+    color: #ffffff;
+    padding: 48px 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+        Ubuntu, Cantarell, sans-serif;
+}
+
+.footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+.footer-top {
+    margin-bottom: 48px;
+}
+
+.footer-logo {
+    color: #ffffff;
+    font-size: 24px;
+    font-weight: 700;
+    margin: 0 0 16px 0;
+}
+
+.footer-description {
+    max-width: 400px;
+    line-height: 1.5;
+}
+
+.footer-content {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 32px;
+    margin-bottom: 48px;
+}
+
+.footer-section-title {
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin: 0 0 16px 0;
+}
+
+.footer-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-links li {
+    margin-bottom: 8px;
+}
+
+.footer-link {
+    color: #ffffff;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.footer-link:hover {
+    color: #ffffff;
+}
+
+.footer-bottom {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding-top: 32px;
+    border-top: 1px solid #374151;
 }
 
-.keystone-alliance, .directory, .account, .support {
-    line-height: 140%;
-    display: inline-block;
-    width: auto;
-    height: auto;
-    text-align: center;
-    padding: 10px;
+.footer-social {
+    display: flex;
+    gap: 24px;
 }
 
-.keystone-alliance {
-    font-size: 2.25rem; /* Adjusted for responsiveness */
-    /* Removed absolute positioning for more flexibility */
+.social-link {
+    color: #ffffff;
+    transition: color 0.2s ease;
 }
 
-.directory, .account, .support {
-    font-size: 1.5rem; /* Adjusted for responsiveness */
-    /* Removed absolute positioning for more flexibility */
+.social-link:hover {
+    color: #ffffff;
 }
 
-@media (max-width: 768px) {
-    .footer {
-        flex-direction: column;
-        text-align: center;
+.social-icon {
+    width: 24px;
+    height: 24px;
+}
+
+.copyright {
+    font-size: 14px;
+    margin: 0;
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .footer-content {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 640px) {
+    .footer-content {
+        grid-template-columns: 1fr;
     }
 
-    .keystone-alliance, .directory, .account, .support {
-        width: 100%;
-        margin-bottom: 10px;
+    .footer-bottom {
+        flex-direction: column;
+        text-align: center;
+        gap: 24px;
+    }
+
+    .footer-social {
+        justify-content: center;
     }
 }
