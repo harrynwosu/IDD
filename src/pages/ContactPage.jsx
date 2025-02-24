@@ -6,22 +6,22 @@ const categories = [
     {
         title: 'My Account',
         description:
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+            'Manage your account.',
     },
     {
         title: 'FAQ',
         description:
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+            'Have a question? Click here to see answers to our frequently asked questions.',
     },
     {
         title: 'Language & Accessibility',
         description:
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+            'Customize your experience with language and accessibility options to ensure seamless navigation and inclusive access for all users.',
     },
     {
         title: 'Privacy & Security',
         description:
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+            'Protecting your data is our priority. Manage your privacy settings and learn how we keep your information secure.',
     },
 ];
 
