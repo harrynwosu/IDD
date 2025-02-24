@@ -102,7 +102,14 @@ To push your local changes to this main repo, take the following steps in the VS
 > [!CAUTION]
 > Please only push things that work, so as not to break things. Try not to delete any already existing stuff without confirming your changes with the rest of the team. If you're not entirely sure of your changes, feel free to reach out to me.
 
-1. Add your current changes to the staging area.
+
+1. Before you make any new changes, it's a good rule of thumb to pull the latest version of the repo so as not to cause conflicts. Simply do this using this command in the terminal
+
+   ```
+   git pull
+   ```
+
+2. Add your current changes to the staging area.
 
    ```
    git add .
