@@ -60,7 +60,7 @@ const SearchForm = ({ setFilteredProviders }) => {
         };
 
         fetchData();
-    }, []);
+    }, [setFilteredProviders]);
 
     const filterProviders = () => {
         return providers.filter((provider) => {

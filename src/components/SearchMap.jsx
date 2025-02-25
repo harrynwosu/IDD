@@ -125,7 +125,7 @@ const SearchMap = ({ activeView, filteredProviders, setFilteredProviders }) => {
         };
 
         loadProviders();
-    }, []);
+    }, [setFilteredProviders]);
 
     // Filter providers
     // const filterProviders = useCallback(async () => {
