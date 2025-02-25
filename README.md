@@ -8,6 +8,7 @@ For right now, you should only be worried about the following files/directories.
 /
 ├── src/
 │   ├── components/
+        └── utils/
 │   ├── pages/
 │   ├── styles/
 │   ├── App.jsx
