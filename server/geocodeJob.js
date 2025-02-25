@@ -9,7 +9,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // Path to CSV file
-const CSV_PATH = path.join(__dirname, 'data', 'combined_service_providers.csv');
+const CSV_PATH = path.join(__dirname, 'data', 'updated_service_providers.csv');
 
 // Path to store geocoded data in JSON
 const OUTPUT_JSON = path.join(__dirname, 'data', 'geocoded-providers.json');
@@ -19,7 +19,8 @@ async function geocodeAddress(streetAddress, city) {
     if (!streetAddress || !city) return null;
 
     const params = new URLSearchParams({
-        q: `${streetAddress}, ${city}`,
+        // In the case of conflicts, get only providers in illinois
+        q: `${streetAddress}, ${city}, Illinois`,
         format: 'json',
         addressdetails: '1',
         polygon_geojson: '0',
@@ -72,8 +73,8 @@ async function geocodeAllProviders() {
         const geocodedProviders = [];
         for (let i = 0; i < rawProviders.length; i++) {
             const provider = rawProviders[i];
-            const street = provider['Street Address'];
-            const city = provider['City'];
+            const street = provider.street_address;
+            const city = provider.city;
 
             const coords = await geocodeAddress(street, city);
 

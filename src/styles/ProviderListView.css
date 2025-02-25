@@ -1,0 +1,21 @@
+/* ProviderListView Styles */
+.provider-list-container {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+}
+
+.provider-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.provider-list-no-results {
+    text-align: center;
+    padding: 40px;
+    color: #6b7280;
+    font-size: 16px;
+}

@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 // import { getZipCodeCoordinates } from '../providerService';
+import ProviderListView from './utils/ProviderListView';
 
 import '../styles/SearchMap.css';
 
@@ -20,7 +22,7 @@ const defaultIcon = L.icon({
     shadowSize: [41, 41],
 });
 
-const SearchMap = () => {
+const SearchMap = ({ activeView }) => {
     // const [providers, setProviders] = useState([]);
     const [filteredProviders, setFilteredProviders] = useState([]);
     const [userLocation, setUserLocation] = useState(null);
@@ -162,6 +164,10 @@ const SearchMap = () => {
     //     }
     // }, [filters, providers, calculateDistance]);
 
+    const onProviderSelect = () => {
+        return;
+    };
+
     if (error) {
         return (
             <div className='error-container'>
@@ -171,60 +177,17 @@ const SearchMap = () => {
         );
     }
 
-    return (
+    return activeView === 'list' ? (
+        <div className='list-container'>
+            {/* Add your list view content here */}
+            {/* <p>List View Content</p> */}
+            <ProviderListView
+                providers={filteredProviders}
+                onProviderSelect={onProviderSelect}
+            />
+        </div>
+    ) : (
         <div className='map-container'>
-            {/*
-            <div className='filter-controls'>
-                <select
-                    value={filters.service}
-                    onChange={(e) =>
-                        setFilters((prev) => ({
-                            ...prev,
-                            service: e.target.value,
-                        }))
-                    }
-                    disabled={isLoading}
-                >
-                    <option value=''>All Services</option>
-                </select>
-
-                <input
-                    type='text'
-                    placeholder='Enter ZIP code'
-                    value={filters.zipCode}
-                    onChange={(e) =>
-                        setFilters((prev) => ({
-                            ...prev,
-                            zipCode: e.target.value,
-                        }))
-                    }
-                    disabled={isLoading}
-                />
-
-                <input
-                    type='number'
-                    placeholder='Radius (miles)'
-                    value={filters.radius}
-                    onChange={(e) =>
-                        setFilters((prev) => ({
-                            ...prev,
-                            radius: Math.max(1, parseInt(e.target.value) || 10),
-                        }))
-                    }
-                    min='1'
-                    disabled={isLoading}
-                />
-
-                <button
-                    onClick={filterProviders}
-                    disabled={isLoading}
-                    className={isLoading ? 'loading' : ''}
-                >
-                    {isLoading ? 'Loading...' : 'Apply Filters'}
-                </button>
-            </div>
-            */}
-
             <MapContainer
                 center={userLocation || DEFAULT_CENTER}
                 zoom={13}
@@ -236,7 +199,6 @@ const SearchMap = () => {
                 />
 
                 {filteredProviders.map((provider, index) => {
-                    console.log(provider);
                     if (!(provider.lat || provider.lon)) {
                         console.warn(
                             `Provider ${provider.name} has no coordinates`
@@ -257,10 +219,13 @@ const SearchMap = () => {
                         >
                             <Popup>
                                 <div className='provider-popup'>
-                                    <h3>{provider.name}</h3>
-                                    <p>{provider['Street Address']}</p>
-                                    <p>Services: {provider.services}</p>
-                                    <p>Phone: {provider.phone}</p>
+                                    <h3>{provider.provider_name}</h3>
+                                    <p>
+                                        {provider.street_address},{' '}
+                                        {provider.county} County
+                                    </p>
+                                    <p>Service: {provider.service_type}</p>
+                                    <p>Phone: {provider.phone_number}</p>
                                 </div>
                             </Popup>
                         </Marker>
@@ -269,6 +234,10 @@ const SearchMap = () => {
             </MapContainer>
         </div>
     );
+};
+
+SearchMap.propTypes = {
+    activeView: PropTypes.string.isRequired,
 };
 
 export default SearchMap;

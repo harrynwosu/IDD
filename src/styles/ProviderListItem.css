@@ -1,0 +1,48 @@
+/* ProviderItem Styles */
+.provider-item {
+    border-bottom: 1px solid #e0e0e0;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: white;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.provider-item-hover {
+    cursor: pointer;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.provider-item-name {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #2563eb;
+}
+
+.provider-item-info-row {
+    display: flex;
+    margin-bottom: 5px;
+}
+
+.provider-item-label {
+    font-weight: bold;
+    margin-right: 8px;
+    min-width: 80px;
+}
+
+.provider-item-value {
+    color: #4b5563;
+}
+
+.provider-item-badge {
+    display: inline-block;
+    padding: 4px 8px;
+    background-color: #e0f2fe;
+    color: #0369a1;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: bold;
+}
