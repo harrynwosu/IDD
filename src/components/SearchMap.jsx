@@ -22,9 +22,9 @@ const defaultIcon = L.icon({
     shadowSize: [41, 41],
 });
 
-const SearchMap = ({ activeView }) => {
+const SearchMap = ({ activeView, filteredProviders, setFilteredProviders }) => {
     // const [providers, setProviders] = useState([]);
-    const [filteredProviders, setFilteredProviders] = useState([]);
+    // const [filteredProviders, setFilteredProviders] = useState([]);
     const [userLocation, setUserLocation] = useState(null);
     // const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -238,6 +238,8 @@ const SearchMap = ({ activeView }) => {
 
 SearchMap.propTypes = {
     activeView: PropTypes.string.isRequired,
+    filteredProviders: PropTypes.array.isRequired,
+    setFilteredProviders: PropTypes.func.isRequired,
 };
 
 export default SearchMap;

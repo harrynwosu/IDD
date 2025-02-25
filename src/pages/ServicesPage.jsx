@@ -5,15 +5,23 @@ import PillToggle from '../components/utils/PillToggle';
 
 const ServicesPage = () => {
     const [activeView, setActiveView] = useState('map');
+    const [filteredProviders, setFilteredProviders] = useState([]);
 
     return (
         <>
-            <SearchForm />
+            <SearchForm
+                // filteredProviders={filteredProviders}
+                setFilteredProviders={setFilteredProviders}
+            />
             <PillToggle
                 activeView={activeView}
                 setActiveView={setActiveView}
             />
-            <SearchMap activeView={activeView} />
+            <SearchMap
+                activeView={activeView}
+                filteredProviders={filteredProviders}
+                setFilteredProviders={setFilteredProviders}
+            />
         </>
     );
 };
