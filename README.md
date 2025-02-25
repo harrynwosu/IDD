@@ -28,7 +28,7 @@ For right now, you should only be worried about the following files/directories.
 - The `server` directory mostly contains logic for processing the provider data, getting their location on the map (latitude and longitude) through a process called geocoding, and parsing this data as JSON. It kind of semi-automated for now.
   
 > [!NOTE]
-> To update the provider directory, simply update the csv file at `server/data/combined_service_providers.csv`, then run the geocoding job via the command `node geocodeJob.js` in the terminal. It takes a couple minutes to complete, so please be patient.
+> To update the provider directory, simply update the csv file at `server/data/combined_service_providers.csv`, then run the geocoding job via the command `node geocodeJob.js` in the terminal. It takes a couple minutes to complete, so please be patient. I'd say give it about 30 minutes.
 > 
 > For local development, the terminal command `node server.js` should get the server running on PORT 4000.
 
