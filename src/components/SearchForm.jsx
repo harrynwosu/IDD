@@ -11,7 +11,6 @@ const SearchForm = ({ setFilteredProviders }) => {
 
     // Provider data states
     const [providers, setProviders] = useState([]);
-    // const [filteredProviders, setFilteredProviders] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
@@ -33,17 +32,23 @@ const SearchForm = ({ setFilteredProviders }) => {
                 setFilteredProviders(data);
 
                 const uniqueServiceTypes = [
-                    ...new Set(data.map((item) => item.service_type)),
-                ].sort();
-                const uniqueCounties = [
                     ...new Set(
-                        data
-                            // first map to county or undefined
-                            .map((item) => item.county)
-                            // then filter out falsy values (e.g. "", undefined, null)
-                            .filter(Boolean)
+                        data.flatMap((item) => {
+                            if (!item.service_type) {
+                                return [];
+                            }
+
+                            return item.service_type
+                                .split(',')
+                                .map((type) => type.trim());
+                        })
                     ),
                 ].sort();
+
+                const uniqueCounties = [
+                    ...new Set(data.map((item) => item.county).filter(Boolean)),
+                ].sort();
+
                 const uniqueZipCodes = [
                     ...new Set(data.map((item) => item.zipcode)),
                 ].sort();
@@ -67,8 +72,10 @@ const SearchForm = ({ setFilteredProviders }) => {
             // Check if provider matches all selected criteria
             const matchesServiceType =
                 !serviceType ||
-                provider.service_type.toString().toLowerCase() ===
-                    serviceType.toLowerCase();
+                provider.service_type
+                    .toString()
+                    .toLowerCase()
+                    .includes(serviceType.toLowerCase());
             const matchesCounty =
                 !county ||
                 provider.county.toString().toLowerCase() ===
@@ -103,7 +110,7 @@ const SearchForm = ({ setFilteredProviders }) => {
                         value={serviceType}
                         onChange={(e) => setServiceType(e.target.value)}
                     >
-                        <option value=''>Select an option</option>
+                        <option value=''>Select service type</option>
                         {serviceTypes.map((type) => (
                             <option
                                 key={type}
@@ -171,7 +178,6 @@ const SearchForm = ({ setFilteredProviders }) => {
 
 SearchForm.propTypes = {
     activeView: PropTypes.string.isRequired,
-    // filteredProviders: PropTypes.array.isRequired,
     setFilteredProviders: PropTypes.func.isRequired,
 };
 
