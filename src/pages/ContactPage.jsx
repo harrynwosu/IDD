@@ -30,20 +30,9 @@ const categories = [
         modalContent: (
             <>
                 <h3>Frequently Asked Questions</h3>
-                <h4>How do I reset my password?</h4>
                 <p>
-                    You can reset your password by clicking the `Forgot
-                    Password` link on the login page.
+                    Visit our full <a href="/faq"> FAQ page</a> for more infromation.
                 </p>
-
-                <h4>How long does shipping take?</h4>
-                <p>
-                    Standard shipping typically takes 3-5 business days. Express
-                    shipping is 1-2 business days.
-                </p>
-
-                <h4>What payment methods do you accept?</h4>
-                <p>We accept all major credit cards, PayPal, and Apple Pay.</p>
             </>
         ),
     },
@@ -169,16 +158,20 @@ const ContactPage = () => {
                                     <p className='card-description'>
                                         {category.description}
                                     </p>
-                                    <button
-                                        className='card-button'
-                                        onClick={() => openModal(index)}
-                                    >
+                                    {category.title === 'FAQ' ? (
+                                    <a href="/faq" className= 'card-button' target='_blank' rel='noopener noreferrer'>
                                         Go
-                                    </button>
+                                        </a>
+                                    ) : (
+                                        <button className='card-button' onClick={() => openModal (index)}>
+                                            Go
+                                        </button>
+                                    )}
                                 </div>
                             </div>
 
-                            {/* Modal for this category */}
+                            {/* Modal for this categories that are NOT FAQ */}
+                            {category.title !== 'FAQ' && (
                             <Modal
                                 isOpen={openModalIndex === index}
                                 onClose={closeModal}
@@ -186,6 +179,7 @@ const ContactPage = () => {
                             >
                                 {category.modalContent}
                             </Modal>
+                            )}
                         </div>
                     ))}
                 </div>

@@ -10,7 +10,9 @@ import HomePage from './pages/HomePage';
 import ServicesPage from './pages/ServicesPage';
 import ContactPage from './pages/ContactPage';
 import Footer from './components/Footer';
+import FAQPage from './pages/FAQPage';
 import './App.css';
+
 
 // Component to handle scroll to top on route change
 const ScrollToTop = () => {
@@ -43,6 +45,7 @@ function App() {
                         path='/contact'
                         element={<ContactPage />}
                     />
+                    <Route path='faq' element={<FAQPage />} />
                 </Routes>
                 <Footer />
             </Router>
