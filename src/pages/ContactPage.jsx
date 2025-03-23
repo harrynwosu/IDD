@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Search, Info } from 'lucide-react';
+import FAQPage from './FAQPage';
 import Modal from '../components/utils/Modal';
 import '../styles/ContactPage.css';
 
@@ -23,16 +24,27 @@ const categories = [
             </>
         ),
     },
+    // {
+    //     title: 'FAQ',
+    //     description:
+    //         'Have a question? Click here to see answers to our frequently asked questions.',
+    //     modalContent: (
+    //         <>
+    //             <h3>Frequently Asked Questions</h3>
+    //             <p>
+    //                 Visit our full <a href='/faq'> FAQ page</a> for more
+    //                 infromation.
+    //             </p>
+    //         </>
+    //     ),
+    // },
     {
         title: 'FAQ',
         description:
             'Have a question? Click here to see answers to our frequently asked questions.',
         modalContent: (
             <>
-                <h3>Frequently Asked Questions</h3>
-                <p>
-                    Visit our full <a href="/faq"> FAQ page</a> for more infromation.
-                </p>
+                <FAQPage />
             </>
         ),
     },
@@ -158,7 +170,7 @@ const ContactPage = () => {
                                     <p className='card-description'>
                                         {category.description}
                                     </p>
-                                    {category.title === 'FAQ' ? (
+                                    {/* {category.title === 'FAQ' ? (
                                     <a href="/faq" className= 'card-button' target='_blank' rel='noopener noreferrer'>
                                         Go
                                         </a>
@@ -166,12 +178,17 @@ const ContactPage = () => {
                                         <button className='card-button' onClick={() => openModal (index)}>
                                             Go
                                         </button>
-                                    )}
+                                    )} */}
+                                    <button
+                                        className='card-button'
+                                        onClick={() => openModal(index)}
+                                    >
+                                        Go
+                                    </button>
                                 </div>
                             </div>
 
-                            {/* Modal for this categories that are NOT FAQ */}
-                            {category.title !== 'FAQ' && (
+                            {/* Modal for this category */}
                             <Modal
                                 isOpen={openModalIndex === index}
                                 onClose={closeModal}
@@ -179,7 +196,6 @@ const ContactPage = () => {
                             >
                                 {category.modalContent}
                             </Modal>
-                            )}
                         </div>
                     ))}
                 </div>
