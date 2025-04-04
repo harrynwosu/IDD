@@ -23,37 +23,8 @@ const defaultIcon = L.icon({
 });
 
 const SearchMap = ({ activeView, filteredProviders, setFilteredProviders }) => {
-    // const [providers, setProviders] = useState([]);
-    // const [filteredProviders, setFilteredProviders] = useState([]);
     const [userLocation, setUserLocation] = useState(null);
-    // const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
-    // const [filters, setFilters] = useState({
-    //     service: '',
-    //     zipCode: '',
-    //     radius: 10,
-    // });
-
-    // Calculate distance between two points
-    // const calculateDistance = useCallback((coords1, coords2) => {
-    //     if (!coords1 || !coords2) return Infinity;
-
-    //     const R = 3963; // Earth's radius in miles
-    //     const lat1 = (coords1[0] * Math.PI) / 180;
-    //     const lat2 = (coords2[0] * Math.PI) / 180;
-    //     const dLat = ((coords2[0] - coords1[0]) * Math.PI) / 180;
-    //     const dLon = ((coords2[1] - coords1[1]) * Math.PI) / 180;
-
-    //     const a =
-    //         Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-    //         Math.cos(lat1) *
-    //             Math.cos(lat2) *
-    //             Math.sin(dLon / 2) *
-    //             Math.sin(dLon / 2);
-
-    //     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    //     return R * c;
-    // }, []);
 
     // Load user location
     useEffect(() => {
@@ -104,7 +75,6 @@ const SearchMap = ({ activeView, filteredProviders, setFilteredProviders }) => {
     // Load providers
     useEffect(() => {
         const loadProviders = async () => {
-            // setIsLoading(true);
             setError(null);
 
             try {
@@ -114,55 +84,15 @@ const SearchMap = ({ activeView, filteredProviders, setFilteredProviders }) => {
                 const geocodedProvidersJSON = await geocodedProviders.json();
 
                 console.log('geocodedProviders', geocodedProvidersJSON);
-                // setProviders(geocodedProvidersJSON);
                 setFilteredProviders(geocodedProvidersJSON);
             } catch (error) {
                 console.error('Provider loading error:', error);
                 setError(error.message);
-            } finally {
-                // setIsLoading(false);
             }
         };
 
         loadProviders();
     }, [setFilteredProviders]);
-
-    // Filter providers
-    // const filterProviders = useCallback(async () => {
-    //     setIsLoading(true);
-    //     try {
-    //         let filtered = [...providers];
-
-    //         if (filters.service) {
-    //             filtered = filtered.filter((provider) =>
-    //                 provider.services?.includes(filters.service)
-    //             );
-    //         }
-
-    //         if (filters.zipCode) {
-    //             const zipCoords = await getZipCodeCoordinates(filters.zipCode);
-    //             if (zipCoords) {
-    //                 filtered = filtered.filter(
-    //                     (provider) =>
-    //                         provider.coordinates &&
-    //                         calculateDistance(
-    //                             provider.coordinates,
-    //                             zipCoords
-    //                         ) <= filters.radius
-    //                 );
-    //             } else {
-    //                 setError('Invalid ZIP code');
-    //             }
-    //         }
-
-    //         setFilteredProviders(filtered);
-    //     } catch (error) {
-    //         console.error('Filtering error:', error);
-    //         setError('Failed to apply filters');
-    //     } finally {
-    //         setIsLoading(false);
-    //     }
-    // }, [filters, providers, calculateDistance]);
 
     const onProviderSelect = () => {
         return;
@@ -179,7 +109,6 @@ const SearchMap = ({ activeView, filteredProviders, setFilteredProviders }) => {
 
     return activeView === 'list' ? (
         <div className='list-container'>
-            {/* Add your list view content here */}
             {/* <p>List View Content</p> */}
             <ProviderListView
                 providers={filteredProviders}

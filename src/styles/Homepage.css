@@ -114,8 +114,9 @@
 }
 
 .learn-more-button:hover {
-    background-color: #333;
+    background-color: #2563eb;
     color: white;
+    border: 2px solid #2563eb;
 }
 
 /* Responsive adjustments */

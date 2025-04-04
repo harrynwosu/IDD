@@ -9,10 +9,7 @@ const ServicesPage = () => {
 
     return (
         <>
-            <SearchForm
-                // filteredProviders={filteredProviders}
-                setFilteredProviders={setFilteredProviders}
-            />
+            <SearchForm setFilteredProviders={setFilteredProviders} />
             <PillToggle
                 activeView={activeView}
                 setActiveView={setActiveView}

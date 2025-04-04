@@ -90,11 +90,25 @@ async function geocodeAllProviders() {
             await new Promise((res) => setTimeout(res, 1000));
         }
 
+        const uniqueGeocodedProviders = new Map();
+
+        geocodedProviders.forEach((provider) => {
+            const uniqueKey = `${provider.street_address}, ${provider.city}`;
+            if (!uniqueGeocodedProviders.has(uniqueKey)) {
+                uniqueGeocodedProviders.set(uniqueKey, provider);
+            }
+        });
+
         // Save to JSON file
         fs.writeFileSync(
             OUTPUT_JSON,
-            JSON.stringify(geocodedProviders, null, 2)
+            JSON.stringify(
+                Array.from(uniqueGeocodedProviders.values()),
+                null,
+                2
+            )
         );
+
         console.log(
             `Geocode job complete. Saved ${geocodedProviders.length} providers.`
         );
@@ -113,9 +127,20 @@ function loadDataFromJSON() {
     try {
         if (fs.existsSync(OUTPUT_JSON)) {
             const raw = fs.readFileSync(OUTPUT_JSON, 'utf-8');
-            cachedProviders = JSON.parse(raw);
+            const parsedData = JSON.parse(raw);
+
+            const uniqueProviders = new Map();
+            parsedData.forEach((provider) => {
+                const uniqueKey = `${provider.street_address}, ${provider.city}`;
+                if (!uniqueProviders.has(uniqueKey)) {
+                    uniqueProviders.set(uniqueKey, provider);
+                }
+            });
+
+            cachedProviders = Array.from(uniqueProviders.values());
+
             console.log(
-                `Loaded ${cachedProviders.length} providers from JSON.`
+                `Loaded ${cachedProviders.length} unique providers from JSON.`
             );
         } else {
             console.warn('No geocoded-providers.json file found yet.');

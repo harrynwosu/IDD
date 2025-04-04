@@ -26,6 +26,14 @@ const ProviderItem = ({ provider, onClick }) => {
         ));
     };
 
+    const toTitleCase = (str) =>
+        str
+            .toLowerCase()
+            .replace(
+                /\b\w+('\w)?/g,
+                (word) => word.charAt(0).toUpperCase() + word.slice(1)
+            );
+
     return (
         <div
             className='provider-item'
@@ -33,7 +41,9 @@ const ProviderItem = ({ provider, onClick }) => {
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
         >
-            <div className='provider-item-name'>{provider.provider_name}</div>
+            <div className='provider-item-name'>
+                {toTitleCase(provider.provider_name)}
+            </div>
             <div className='provider-item-info-row'>
                 <div className='provider-item-label'>Address:</div>
                 <div className='provider-item-value'>
