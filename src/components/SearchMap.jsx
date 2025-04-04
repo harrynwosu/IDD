@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
-// import { getZipCodeCoordinates } from '../providerService';
 import ProviderListView from './utils/ProviderListView';
+import { ThumbsUp, ThumbsDown } from 'lucide-react';
 
 import '../styles/SearchMap.css';
 
@@ -83,7 +83,6 @@ const SearchMap = ({ activeView, filteredProviders, setFilteredProviders }) => {
                 );
                 const geocodedProvidersJSON = await geocodedProviders.json();
 
-                console.log('geocodedProviders', geocodedProvidersJSON);
                 setFilteredProviders(geocodedProvidersJSON);
             } catch (error) {
                 console.error('Provider loading error:', error);
@@ -96,6 +95,37 @@ const SearchMap = ({ activeView, filteredProviders, setFilteredProviders }) => {
 
     const onProviderSelect = () => {
         return;
+    };
+
+    const toTitleCase = (str) =>
+        str
+            .toLowerCase()
+            .replace(
+                /\b\w+('\w)?/g,
+                (word) => word.charAt(0).toUpperCase() + word.slice(1)
+            );
+
+    const formatPhoneNumber = (phoneNumber) => {
+        const cleaned = ('' + phoneNumber).replace(/\D/g, '');
+
+        // Check if we have a 10-digit number
+        if (cleaned.length === 10) {
+            return `(${cleaned.substring(0, 3)}) ${cleaned.substring(
+                3,
+                6
+            )}-${cleaned.substring(6, 10)}`;
+        }
+
+        // For 11-digit numbers that start with 1
+        if (cleaned.length === 11 && cleaned.charAt(0) === '1') {
+            return `(${cleaned.substring(1, 4)}) ${cleaned.substring(
+                4,
+                7
+            )}-${cleaned.substring(7, 11)}`;
+        }
+
+        console.warn(`Unable to format phone number: ${phoneNumber}`);
+        return phoneNumber;
     };
 
     if (error) {
@@ -148,13 +178,82 @@ const SearchMap = ({ activeView, filteredProviders, setFilteredProviders }) => {
                         >
                             <Popup>
                                 <div className='provider-popup'>
-                                    <h3>{provider.provider_name}</h3>
-                                    <p>
-                                        {provider.street_address},{' '}
-                                        {provider.county} County
-                                    </p>
-                                    <p>Service: {provider.service_type}</p>
-                                    <p>Phone: {provider.phone_number}</p>
+                                    <h3
+                                        style={{
+                                            fontSize: '18px',
+                                            fontWeight: 'bold',
+                                            marginBottom: '10px',
+                                            paddingBottom: '5px',
+                                            borderBottom: '1px solid #000',
+                                        }}
+                                    >
+                                        {toTitleCase(provider.provider_name)}
+                                    </h3>
+
+                                    <div>
+                                        <p
+                                            style={{
+                                                fontWeight: 'bold',
+                                                marginBottom: '2px',
+                                            }}
+                                        >
+                                            Address:
+                                        </p>
+                                        <p style={{ marginTop: '0' }}>
+                                            {toTitleCase(
+                                                provider.street_address
+                                            )}
+                                            <br />
+                                            {toTitleCase(provider.city)},{' '}
+                                            {provider.state} {provider.zipcode}
+                                        </p>
+                                    </div>
+
+                                    <div>
+                                        <p
+                                            style={{
+                                                fontWeight: 'bold',
+                                                marginBottom: '2px',
+                                            }}
+                                        >
+                                            Phone:
+                                        </p>
+                                        <p style={{ marginTop: '0' }}>
+                                            {formatPhoneNumber(
+                                                provider.phone_number
+                                            )}
+                                        </p>
+                                    </div>
+
+                                    <div
+                                        style={{
+                                            marginTop: '15px',
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                        }}
+                                    >
+                                        <span>How was your experience?</span>
+                                        <div
+                                            style={{
+                                                display: 'flex',
+                                                marginLeft: '10px',
+                                                gap: '5px',
+                                            }}
+                                        >
+                                            <button
+                                                aria-label='Thumbs up'
+                                                className='thumbs-up-icon'
+                                            >
+                                                <ThumbsUp />
+                                            </button>
+                                            <button
+                                                aria-label='Thumbs down'
+                                                className='thumbs-down-icon'
+                                            >
+                                                <ThumbsDown />
+                                            </button>
+                                        </div>
+                                    </div>
                                 </div>
                             </Popup>
                         </Marker>
