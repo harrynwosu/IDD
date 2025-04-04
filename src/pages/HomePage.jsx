@@ -1,9 +1,11 @@
+import { useNavigate } from 'react-router-dom' ;
 import HeroImage from '/idd-homepage.png';
 import AboutImage from '/about-us-idd.png';
 
 import '../styles/Homepage.css';
 
 const HomePage = () => {
+    const navigate = useNavigate(); 
     return (
         <div className='landing-page'>
             <section className='home-hero'>
@@ -22,7 +24,9 @@ const HomePage = () => {
                     providing a centralized platform to locate and connect with verified support services, 
                     including healthcare, therapy, education, employment assistance, and community programs.
                     </p>
-                    <button className='learn-more-button'>LEARN MORE</button>
+                    {/* Updated Button */}
+                    <button className='learn-more-button'
+                    onClick= {() => navigate('/services')}>Search For Services</button>
                 </div>
             </section>
 
