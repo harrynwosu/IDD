@@ -7,8 +7,6 @@ import Papa from 'papaparse';
 
 dotenv.config();
 
-console.log('address: ', process.env.DATABASE_URL);
-
 // Database connection
 const pool = new pg.Pool({
     connectionString: process.env.DATABASE_URL,

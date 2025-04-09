@@ -10,11 +10,9 @@ import {
     deleteProvider,
     startGeocodeCron,
     geocodeAllProviders,
-    migrateFromCSV,
 } from './database.js';
 
 const app = express();
-const PORT = process.env.PORT || 4000;
 
 app.use(cors());
 app.use(express.json());
@@ -45,7 +43,7 @@ const adminAuth = (req, res, next) => {
 };
 
 // Public API - Get all geocoded providers
-app.get('/api/providers', async (req, res) => {
+app.get('/providers', async (req, res) => {
     try {
         const providers = await getAllProviders();
         res.json(providers);
@@ -57,7 +55,7 @@ app.get('/api/providers', async (req, res) => {
 
 // ADMIN ROUTES - Protected by basic auth
 // Get all providers for admin
-app.get('/api/admin/providers', adminAuth, async (req, res) => {
+app.get('/admin/providers', adminAuth, async (req, res) => {
     try {
         const providers = await getAllProviders();
         res.json(providers);
@@ -68,7 +66,7 @@ app.get('/api/admin/providers', adminAuth, async (req, res) => {
 });
 
 // Get a specific provider
-app.get('/api/admin/providers/:id', adminAuth, async (req, res) => {
+app.get('/admin/providers/:id', adminAuth, async (req, res) => {
     try {
         const provider = await getProviderById(req.params.id);
         if (!provider) {
@@ -82,7 +80,7 @@ app.get('/api/admin/providers/:id', adminAuth, async (req, res) => {
 });
 
 // Add a new provider
-app.post('/api/admin/providers', adminAuth, async (req, res) => {
+app.post('/admin/providers', adminAuth, async (req, res) => {
     try {
         const providerId = await addProvider(req.body);
         res.status(201).json({
@@ -96,7 +94,7 @@ app.post('/api/admin/providers', adminAuth, async (req, res) => {
 });
 
 // Update a provider
-app.put('/api/admin/providers/:id', adminAuth, async (req, res) => {
+app.put('/admin/providers/:id', adminAuth, async (req, res) => {
     try {
         const provider = await updateProvider(req.params.id, req.body);
         if (!provider) {
@@ -110,7 +108,7 @@ app.put('/api/admin/providers/:id', adminAuth, async (req, res) => {
 });
 
 // Delete a provider
-app.delete('/api/admin/providers/:id', adminAuth, async (req, res) => {
+app.delete('/admin/providers/:id', adminAuth, async (req, res) => {
     try {
         await deleteProvider(req.params.id);
         res.json({ message: 'Provider deleted successfully' });
@@ -121,7 +119,7 @@ app.delete('/api/admin/providers/:id', adminAuth, async (req, res) => {
 });
 
 // Trigger geocoding manually
-app.post('/api/admin/geocode', adminAuth, async (req, res) => {
+app.post('/admin/geocode', adminAuth, async (req, res) => {
     try {
         // Run geocoding in the background
         geocodeAllProviders().catch((err) =>
@@ -149,8 +147,9 @@ app.post('/api/admin/geocode', adminAuth, async (req, res) => {
 // If needed, uncomment the next line
 // startGeocodeCron();
 
+const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
 
-export default app;
+// export default app;
