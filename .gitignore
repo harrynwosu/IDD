@@ -7,8 +7,6 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-node_modules
-dist
 dist-ssr
 *.local
 
@@ -23,5 +21,14 @@ dist-ssr
 *.sln
 *.sw?
 
+# node_modules
+client/node_modules
+server_node_modules
+
 # Env files
-.env
+client/.env
+server/.env
+
+# Build output
+client/dist
+server/dist

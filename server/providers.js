@@ -8,7 +8,7 @@ import {
     updateProvider,
     deleteProvider,
     geocodeAllProviders,
-} from '../database.js';
+} from './database.js';
 
 const router = express.Router();
 
