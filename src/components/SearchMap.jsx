@@ -12,6 +12,7 @@ import '../styles/SearchMap.css';
 const DEFAULT_CENTER = [41.8781, -87.6298]; // Chicago coordinates
 const USER_LOCATION_KEY = 'user_location';
 const CACHE_DURATION = 30 * 24 * 60 * 60 * 1000; // 30 days in milliseconds
+const BASE_URL = '/api';
 
 // Custom marker icon
 const defaultIcon = L.icon({
@@ -78,12 +79,17 @@ const SearchMap = ({ activeView, filteredProviders, setFilteredProviders }) => {
             setError(null);
 
             try {
-                const geocodedProviders = await fetch(
-                    '/data/geocoded-providers.json'
-                );
-                const geocodedProvidersJSON = await geocodedProviders.json();
+                const response = await fetch(`${BASE_URL}/providers`);
 
-                setFilteredProviders(geocodedProvidersJSON);
+                if (!response.ok) {
+                    throw new Error('Failed to load providers');
+                }
+
+                const providers = await response.json();
+
+                console.log('Response', providers);
+
+                setFilteredProviders(providers);
             } catch (error) {
                 console.error('Provider loading error:', error);
                 setError(error.message);
