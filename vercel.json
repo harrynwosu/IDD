@@ -4,6 +4,10 @@
             "src": "/[^.]+",
             "dest": "/index.html",
             "status": 200
+        },
+        {
+            "src": "/api/(.*)",
+            "dest": "/server/server.js"
         }
     ]
 }
