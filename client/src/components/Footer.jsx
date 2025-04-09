@@ -7,6 +7,7 @@ const Footer = () => {
             links: [
                 { name: 'About Us', url: '/' },
                 { name: 'Blog', url: 'https://www.keystonealliance.org/blog' },
+                { name: 'Admin', url: '/admin' },
             ],
         },
         {
