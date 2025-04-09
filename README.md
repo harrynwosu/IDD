@@ -17,7 +17,9 @@ For right now, you should only be worried about the following files/directories.
 └── server/
     ├── data/
     │   └── combined_service_providers.csv
+    ├── database.js
     ├── geocodeJob.js
+    ├── migrate.js
     └── server.js
 
 ```
