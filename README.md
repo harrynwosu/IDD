@@ -5,29 +5,31 @@
 For right now, you should only be worried about the following files/directories. Almost everything else is boilerplate:
 
 ```
-/
-├── src/
-│   ├── components/
-        └── utils/
-│   ├── pages/
-│   ├── styles/
-│   ├── App.jsx
-│   ├── App.css
-│   └── main.jsx
-└── server/
-    ├── data/
-    │   └── combined_service_providers.csv
-    ├── database.js
-    ├── geocodeJob.js
-    ├── migrate.js
-    └── server.js
+root/
+├── client/
+│   ├── public/
+│   ├── src/
+│   │   ├── components/
+│   │   ├── pages/
+│   │   ├── styles/
+│   │   ├── App.css
+│   │   ├── App.jsx
+│   │   ├── index.css
+│   │   └── main.jsx
+│   └── index.html
+├── server/
+│   ├── data/
+│   ├── database.js
+│   ├── index.js
+│   ├── migrate.js
+│   └── providers.js
 
 ```
 
 -   The `components` directory contains the building blocks used for the site.
 -   The `pages` directory contains the layout of the different pages (Home, About, Services, etc.). It basically uses the building blocks from `components` to lay the different pages out.
 -   The `styles` directory contains CSS styles for almost everything. Each component/page might have its own styles file which defines the styles used in that file.
--   The `server` directory mostly contains logic for processing the provider data, getting their location on the map (latitude and longitude) through a process called geocoding, and parsing this data as JSON. It kind of semi-automated for now.
+-   The `server` directory mostly contains backend code including the backend API routes, PostgreSQL database setup, and logic for other necessary functionalities for the site as it relates to handling data, such as processing the provider data, getting their location on the map (latitude and longitude) through a process called geocoding, and parsing this data as JSON. It kind of semi-automated for now.
 
 > [!NOTE]
 > To update the provider directory, simply update the csv file at `server/data/combined_service_providers.csv`, then run the geocoding job via the command `node geocodeJob.js` in the terminal. It takes a couple minutes to complete, so please be patient. I'd say give it about 30 minutes - 1 hour.
