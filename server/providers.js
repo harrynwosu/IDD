@@ -4,6 +4,7 @@ import { Buffer } from 'buffer';
 import {
     getAllProviders,
     getProviderById,
+    getPaginatedProviders,
     addProvider,
     updateProvider,
     deleteProvider,
@@ -48,10 +49,34 @@ router.get('/', async (req, res) => {
 });
 
 // ADMIN ROUTES - Protected by basic auth
+
 // Get all providers for admin
+// router.get('/admin', adminAuth, async (req, res) => {
+//     try {
+//         const providers = await getAllProviders();
+//         res.json(providers);
+//     } catch (error) {
+//         console.error('Error returning provider data:', error);
+//         res.status(500).json({ error: 'Failed to fetch providers' });
+//     }
+// });
+
+// Updated from above to include pagination
 router.get('/admin', adminAuth, async (req, res) => {
     try {
-        const providers = await getAllProviders();
+        // Extract pagination parameters from query string
+        const page = parseInt(req.query.page) || 1; // Default to page 1
+        const limit = parseInt(req.query.limit) || 50; // Default to 50 items per page
+
+        const offset = (page - 1) * limit;
+
+        const { providers, totalCount } = await getPaginatedProviders(
+            limit,
+            offset
+        );
+
+        res.setHeader('X-Total-Count', totalCount);
+
         res.json(providers);
     } catch (error) {
         console.error('Error returning provider data:', error);

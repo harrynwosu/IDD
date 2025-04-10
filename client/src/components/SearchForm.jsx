@@ -90,7 +90,6 @@ const SearchForm = ({ setFilteredProviders }) => {
         e.preventDefault();
         const results = filterProviders();
         setFilteredProviders(results);
-        console.log('Search results:', results);
     };
 
     if (loading) return <div>Loading...</div>;

@@ -88,8 +88,6 @@ const SearchMap = ({ activeView, filteredProviders, setFilteredProviders }) => {
 
                 const providers = await response.json();
 
-                console.log('Response', providers);
-
                 setFilteredProviders(providers);
             } catch (error) {
                 console.error('Provider loading error:', error);

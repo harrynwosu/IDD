@@ -248,6 +248,28 @@ export async function getAllProviders() {
     }
 }
 
+export async function getPaginatedProviders(limit, offset) {
+    try {
+        const providersQuery = await pool.query(
+            'SELECT * FROM service_providers ORDER BY provider_name LIMIT $1 OFFSET $2',
+            [limit, offset]
+        );
+
+        const countQuery = await pool.query(
+            'SELECT COUNT(*) FROM service_providers'
+        );
+        const totalCount = parseInt(countQuery.rows[0].count);
+
+        return {
+            providers: providersQuery.rows,
+            totalCount: totalCount,
+        };
+    } catch (error) {
+        console.error('Database error in getPaginatedProviders:', error);
+        throw error;
+    }
+}
+
 // Utility function for automated job running
 export async function startGeocodeCron() {
     // Run daily at 2:00 AM

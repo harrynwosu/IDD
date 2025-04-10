@@ -77,24 +77,42 @@ export function Login({ setAuthToken }) {
 }
 
 // Provider List Component
-export function ProviderList({ authToken }) {
+function ProviderList({ authToken }) {
     const [providers, setProviders] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalProviders, setTotalProviders] = useState(0);
+    const providersPerPage = 50;
 
     useEffect(() => {
         const fetchProviders = async () => {
             try {
-                const response = await fetch(`${API_URL}/api/providers/admin`, {
-                    headers: {
-                        Authorization: `Basic ${authToken}`,
-                    },
-                });
+                setLoading(true);
+                const response = await fetch(
+                    `${API_URL}/api/providers/admin?page=${currentPage}&limit=${providersPerPage}`,
+                    {
+                        headers: {
+                            Authorization: `Basic ${authToken}`,
+                        },
+                    }
+                );
 
                 if (!response.ok) throw new Error('Failed to fetch providers');
 
                 const data = await response.json();
-                setProviders(data);
+                setProviders(data.providers || data); // Handle both formats depending on your API
+
+                // Get total count from headers or response body
+                const totalCount =
+                    response.headers.get('X-Total-Count') || data.totalCount;
+
+                setTotalProviders(
+                    totalCount
+                        ? parseInt(totalCount)
+                        : (data.providers || data).length
+                );
+
                 setLoading(false);
             } catch (error) {
                 setError('Failed to load providers');
@@ -103,20 +121,17 @@ export function ProviderList({ authToken }) {
         };
 
         fetchProviders();
-    }, [authToken]);
+    }, [authToken, currentPage]);
 
     const handleStartGeocoding = async () => {
         try {
-            const response = await fetch(
-                `${API_URL}/api/providers/admin/geocode`,
-                {
-                    method: 'POST',
-                    headers: {
-                        Authorization: `Basic ${authToken}`,
-                        'Content-Type': 'application/json',
-                    },
-                }
-            );
+            const response = await fetch(`${API_URL}/admin/geocode`, {
+                method: 'POST',
+                headers: {
+                    Authorization: `Basic ${authToken}`,
+                    'Content-Type': 'application/json',
+                },
+            });
 
             if (response.ok) {
                 alert(
@@ -136,25 +151,35 @@ export function ProviderList({ authToken }) {
         }
 
         try {
-            const response = await fetch(
-                `${API_URL}/api/providers/admin/providers/${id}`,
-                {
-                    method: 'DELETE',
-                    headers: {
-                        Authorization: `Basic ${authToken}`,
-                    },
-                }
-            );
+            const response = await fetch(`${API_URL}/admin/providers/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    Authorization: `Basic ${authToken}`,
+                },
+            });
 
             if (response.ok) {
                 setProviders(
                     providers.filter((provider) => provider.id !== id)
                 );
+
+                // If we delete the last item on a page, go to previous page (unless we're on page 1)
+                if (providers.length === 1 && currentPage > 1) {
+                    setCurrentPage(currentPage - 1);
+                }
             } else {
                 throw new Error('Failed to delete provider');
             }
         } catch (error) {
             alert(error.message);
+        }
+    };
+
+    const totalPages = Math.ceil(totalProviders / providersPerPage);
+
+    const handlePageChange = (newPage) => {
+        if (newPage >= 1 && newPage <= totalPages) {
+            setCurrentPage(newPage);
         }
     };
 
@@ -212,6 +237,28 @@ export function ProviderList({ authToken }) {
                     ))}
                 </tbody>
             </table>
+
+            {totalPages > 1 && (
+                <div className='pagination'>
+                    <button
+                        onClick={() => handlePageChange(currentPage - 1)}
+                        disabled={currentPage === 1}
+                    >
+                        Previous
+                    </button>
+
+                    <span className='page-info'>
+                        Page {currentPage} of {totalPages}
+                    </span>
+
+                    <button
+                        onClick={() => handlePageChange(currentPage + 1)}
+                        disabled={currentPage === totalPages}
+                    >
+                        Next
+                    </button>
+                </div>
+            )}
         </div>
     );
 }

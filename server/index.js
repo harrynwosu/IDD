@@ -5,7 +5,11 @@ import providersRouter from './providers.js';
 
 const app = express();
 
-app.use(cors());
+app.use(
+    cors({
+        exposedHeaders: ['X-Total-Count'],
+    })
+);
 app.use(express.json());
 
 // Mount the router
