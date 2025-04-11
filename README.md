@@ -26,9 +26,10 @@ root/
 
 ```
 
--   The `components` directory contains the building blocks used for the site.
--   The `pages` directory contains the layout of the different pages (Home, About, Services, etc.). It basically uses the building blocks from `components` to lay the different pages out.
--   The `styles` directory contains CSS styles for almost everything. Each component/page might have its own styles file which defines the styles used in that file.
+-   All the frontend code resides in the `client` folder.
+    -   The `components` directory contains the building blocks used for the site.
+    -   The `pages` directory contains the layout of the different pages (Home, About, Services, etc.). It basically uses the building blocks from `components` to lay the different pages out.
+    -   The `styles` directory contains CSS styles for almost everything. Each component/page might have its own styles file which defines the styles used in that file.
 -   The `server` directory mostly contains backend code including the backend API routes, PostgreSQL database setup, and logic for other necessary functionalities for the site as it relates to handling data, such as processing the provider data, getting their location on the map (latitude and longitude) through a process called geocoding, and parsing this data as JSON. It kind of semi-automated for now.
 
 ## Testing
