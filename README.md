@@ -125,6 +125,8 @@ To push your local changes to this main repo, take the following steps in the VS
 >
 > Try not to delete any other already existing stuff without confirming your changes with the rest of the team. If you're not entirely sure of your changes, feel free to reach out to me or Hector.
 
+First, make sure your terminal in the root directory named `IDD` before continuing.
+
 1. Before you make any new changes, it's a good rule of thumb to pull the latest version of the repo so as not to cause conflicts. Simply do this using this command in the terminal
 
     ```
