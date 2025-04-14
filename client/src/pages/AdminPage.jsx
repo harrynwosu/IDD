@@ -1,13 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import {
-    BrowserRouter as Router,
-    Routes,
-    Route,
-    Link,
-    Navigate,
-    Outlet,
-    useNavigate,
-} from 'react-router-dom';
+import { Navigate, Outlet, useNavigate } from 'react-router-dom';
+import Modal from '../components/utils/Modal';
 
 import '../styles/AdminPage.css';
 
@@ -77,7 +70,12 @@ export function Login({ setAuthToken }) {
 }
 
 // Provider List Component
-function ProviderList({ authToken }) {
+function ProviderList({
+    authToken,
+    onAddProvider,
+    onEditProvider,
+    handleLogout,
+}) {
     const [providers, setProviders] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
@@ -151,12 +149,15 @@ function ProviderList({ authToken }) {
         }
 
         try {
-            const response = await fetch(`${API_URL}/admin/providers/${id}`, {
-                method: 'DELETE',
-                headers: {
-                    Authorization: `Basic ${authToken}`,
-                },
-            });
+            const response = await fetch(
+                `${API_URL}/api/providers/admin/${id}`,
+                {
+                    method: 'DELETE',
+                    headers: {
+                        Authorization: `Basic ${authToken}`,
+                    },
+                }
+            );
 
             if (response.ok) {
                 setProviders(
@@ -183,20 +184,31 @@ function ProviderList({ authToken }) {
         }
     };
 
-    if (loading) return <div>Loading...</div>;
+    const truncateText = (text, maxLength = 50) => {
+        if (!text) return '';
+        return text.length > maxLength
+            ? text.slice(0, maxLength) + '...'
+            : text;
+    };
+
+    if (loading) return <div className='spinner' />;
     if (error) return <div>{error}</div>;
 
     return (
         <div className='provider-list'>
             <div className='provider-list-header'>
-                <h2>Service Providers</h2>
-                <div>
+                <h1>Service Providers</h1>
+                <div className='admin-buttons'>
                     <button onClick={handleStartGeocoding}>
                         Start Geocoding
                     </button>
-                    <Link to='/admin/add'>
-                        <button>Add New Provider</button>
-                    </Link>
+                    <button onClick={onAddProvider}>Add New Provider</button>
+                    <button
+                        className='logout-button'
+                        onClick={handleLogout}
+                    >
+                        Log out
+                    </button>
                 </div>
             </div>
 
@@ -219,15 +231,19 @@ function ProviderList({ authToken }) {
                             <td>{provider.street_address}</td>
                             <td>{provider.city}</td>
                             <td>{provider.state}</td>
-                            <td>{provider.service_type}</td>
+                            <td>{truncateText(provider.service_type)}</td>
                             <td>
                                 {provider.lat && provider.lon ? 'Yes' : 'No'}
                             </td>
                             <td>
-                                <Link to={`/admin/edit/${provider.id}`}>
-                                    Edit
-                                </Link>
                                 <button
+                                    className='edit-provider-button'
+                                    onClick={() => onEditProvider(provider.id)}
+                                >
+                                    Edit
+                                </button>
+                                <button
+                                    className='delete-provider-button'
                                     onClick={() => handleDelete(provider.id)}
                                 >
                                     Delete
@@ -279,12 +295,25 @@ export function ProviderForm({ authToken, providerId = null }) {
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
 
+    const serviceTypeOptions = [
+        'Adaptive Equipment/Assistive Technology Services',
+        'Adult Day Health Services',
+        'Behavior Intervention and Treatment',
+        'Community Day Services',
+        'Community Integrated Living Arrangement Services',
+        'Community Living Facility Services',
+        'Home and Vehicle Modification Services',
+        'Intermediate Care Facility Services',
+        'Psychotherapy and Counseling Services',
+    ];
+
     useEffect(() => {
         if (providerId) {
+            console.log(`${API_URL}/api/providers/admin/${providerId}`);
             const fetchProvider = async () => {
                 try {
                     const response = await fetch(
-                        `${API_URL}/api/providers/admin/providers/${providerId}`,
+                        `${API_URL}/api/providers/admin/${providerId}`,
                         {
                             headers: {
                                 Authorization: `Basic ${authToken}`,
@@ -316,6 +345,19 @@ export function ProviderForm({ authToken, providerId = null }) {
         });
     };
 
+    const handleServiceTypeChange = (e) => {
+        const { name, options } = e.target;
+        const selectedValues = Array.from(options)
+            .filter((option) => option.selected)
+            .map((option) => option.value)
+            .join(',');
+
+        setProvider((prev) => ({
+            ...prev,
+            [name]: selectedValues,
+        }));
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError('');
@@ -324,8 +366,8 @@ export function ProviderForm({ authToken, providerId = null }) {
         try {
             const method = providerId ? 'PUT' : 'POST';
             const url = providerId
-                ? `${API_URL}/api/providers/admin/providers/${providerId}`
-                : `${API_URL}/api/providers/admin/providers`;
+                ? `${API_URL}/api/providers/admin/${providerId}`
+                : `${API_URL}/api/providers/admin/`;
 
             const response = await fetch(url, {
                 method,
@@ -362,11 +404,10 @@ export function ProviderForm({ authToken, providerId = null }) {
         }
     };
 
-    if (loading) return <div>Loading...</div>;
+    if (loading) return <div className='spinner' />;
 
     return (
         <div className='provider-form'>
-            <h2>{providerId ? 'Edit Provider' : 'Add New Provider'}</h2>
             {error && <div className='error'>{error}</div>}
             {success && <div className='success'>{success}</div>}
 
@@ -447,96 +488,38 @@ export function ProviderForm({ authToken, providerId = null }) {
                 </div>
 
                 <div className='form-group'>
-                    <label>Service Type:</label>
-                    <input
-                        type='text'
+                    <label className='service-type-label'>Service Type:</label>
+                    <span className='service-type-sublabel'>
+                        (Hold Ctrl/Cmd to select multiple options)
+                    </span>
+                    <select
                         name='service_type'
-                        value={provider.service_type}
-                        onChange={handleChange}
-                    />
+                        className='service-select'
+                        multiple
+                        value={
+                            provider.service_type
+                                ? provider.service_type.split(',')
+                                : []
+                        }
+                        onChange={handleServiceTypeChange}
+                    >
+                        {serviceTypeOptions.map((type) => (
+                            <option
+                                key={type}
+                                value={type}
+                            >
+                                {type}
+                            </option>
+                        ))}
+                    </select>
                 </div>
 
                 <div className='form-buttons'>
                     <button type='submit'>
                         {providerId ? 'Update Provider' : 'Add Provider'}
                     </button>
-                    <Link to='/admin'>
-                        <button type='button'>Cancel</button>
-                    </Link>
                 </div>
             </form>
-        </div>
-    );
-}
-
-// Migration Component
-export function Migration({ authToken }) {
-    const [csvPath, setCsvPath] = useState('');
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState('');
-    const [success, setSuccess] = useState('');
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        setLoading(true);
-        setError('');
-        setSuccess('');
-
-        try {
-            const response = await fetch(
-                `${API_URL}/api/providers/admin/migrate`,
-                {
-                    method: 'POST',
-                    headers: {
-                        Authorization: `Basic ${authToken}`,
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ csvFilePath: csvPath }),
-                }
-            );
-
-            if (!response.ok) throw new Error('Migration failed');
-
-            setSuccess('Data migration completed successfully');
-            setCsvPath('');
-        } catch (error) {
-            setError(error.message);
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    return (
-        <div className='migration-form'>
-            <h2>Migrate Data from CSV</h2>
-            <p>
-                Use this tool to import providers from a CSV file on the server.
-            </p>
-            {error && <div className='error'>{error}</div>}
-            {success && <div className='success'>{success}</div>}
-
-            <form onSubmit={handleSubmit}>
-                <div className='form-group'>
-                    <label>CSV File Path:</label>
-                    <input
-                        type='text'
-                        value={csvPath}
-                        onChange={(e) => setCsvPath(e.target.value)}
-                        placeholder='/path/to/your/csv/file.csv'
-                        required
-                    />
-                </div>
-                <button
-                    type='submit'
-                    disabled={loading}
-                >
-                    {loading ? 'Processing...' : 'Start Migration'}
-                </button>
-            </form>
-
-            <div className='back-link'>
-                <Link to='/admin'>Back to Provider List</Link>
-            </div>
         </div>
     );
 }
@@ -553,6 +536,23 @@ export function ProtectedRoute({ authToken }) {
 }
 
 export function AdminPage({ authToken, setAuthToken }) {
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [currentProviderId, setCurrentProviderId] = useState(null);
+
+    const openAddModal = () => {
+        setCurrentProviderId(null);
+        setIsModalOpen(true);
+    };
+
+    const openEditModal = (providerId) => {
+        setCurrentProviderId(providerId);
+        setIsModalOpen(true);
+    };
+
+    const closeModal = () => {
+        setIsModalOpen(false);
+    };
+
     const handleLogout = () => {
         setAuthToken('');
         localStorage.removeItem('authToken');
@@ -567,28 +567,28 @@ export function AdminPage({ authToken, setAuthToken }) {
     }, [authToken, navigate]);
 
     return (
-        <Routes>
-            <Route
-                path='/'
-                element={<ProviderList authToken={authToken} />}
+        <div>
+            <ProviderList
+                authToken={authToken}
+                onAddProvider={openAddModal}
+                onEditProvider={openEditModal}
+                handleLogout={handleLogout}
             />
-            <Route
-                path='/add'
-                element={<ProviderForm authToken={authToken} />}
-            />
-            <Route
-                path='/edit/:id'
-                element={
-                    <ProviderForm
-                        authToken={authToken}
-                        providerId={window.location.pathname.split('/').pop()}
-                    />
-                }
-            />
-            <Route
-                path='/migrate'
-                element={<Migration authToken={authToken} />}
-            />
-        </Routes>
+
+            <Modal
+                isOpen={isModalOpen}
+                onClose={closeModal}
+                title={currentProviderId ? 'Edit Provider' : 'Add New Provider'}
+            >
+                <ProviderForm
+                    authToken={authToken}
+                    providerId={currentProviderId}
+                    onSuccess={() => {
+                        closeModal();
+                        // TODO: Refresh the provider list here
+                    }}
+                />
+            </Modal>
+        </div>
     );
 }

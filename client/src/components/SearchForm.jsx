@@ -92,7 +92,7 @@ const SearchForm = ({ setFilteredProviders }) => {
         setFilteredProviders(results);
     };
 
-    if (loading) return <div>Loading...</div>;
+    if (loading) return <div className='spinner' />;
     if (error) return <div>Error: {error}</div>;
 
     return (
