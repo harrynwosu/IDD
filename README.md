@@ -26,19 +26,20 @@ root/
 
 ```
 
--   The `components` directory contains the building blocks used for the site.
--   The `pages` directory contains the layout of the different pages (Home, About, Services, etc.). It basically uses the building blocks from `components` to lay the different pages out.
--   The `styles` directory contains CSS styles for almost everything. Each component/page might have its own styles file which defines the styles used in that file.
+-   All the frontend code resides in the `client` folder.
+    -   The `components` directory contains the building blocks used for the site.
+    -   The `pages` directory contains the layout of the different pages (Home, About, Services, etc.). It basically uses the building blocks from `components` to lay the different pages out.
+    -   The `styles` directory contains CSS styles for almost everything. Each component/page might have its own styles file which defines the styles used in that file.
 -   The `server` directory mostly contains backend code including the backend API routes, PostgreSQL database setup, and logic for other necessary functionalities for the site as it relates to handling data, such as processing the provider data, getting their location on the map (latitude and longitude) through a process called geocoding, and parsing this data as JSON. It kind of semi-automated for now.
-
-> [!NOTE]
-> To update the provider directory, simply update the csv file at `server/data/combined_service_providers.csv`, then run the geocoding job via the command `node geocodeJob.js` in the terminal. It takes a couple minutes to complete, so please be patient. I'd say give it about 30 minutes - 1 hour.
->
-> For local development, the terminal command `node server.js` should get the server running on PORT 4000.
 
 ## Testing
 
 For testing purposes for now, follow the following steps
+
+> [!NOTE]
+> You'll need to create a `.env` file in both your `client` and `server` directories. I didn't put these in the online repo since it contains username and password for the admin login as well as the link to the database connection which you will most definitely need.
+>
+> Reach out to me for the details when needed or if you need any help to creating the env file.
 
 1. Open VSCode and open the terminal. `` Cmd + `  `` on Mac or `` Ctrl + `  `` on Windows
 2. Type this into the VSCode terminal. It creates a copy of this repo on your local machine.
@@ -53,40 +54,64 @@ For testing purposes for now, follow the following steps
     cd IDD
     ```
 
-4. Run the following commands in order:
+4. Run the following commands in order for the frontend:
 
-    This installs all the necessary dependencies needed for the code to work.
+    Move to the client/frontend directory
+
+    ```
+    cd client
+    ```
+
+    Installs all the necessary dependencies needed for the client code to work.
 
     ```
     npm install
     ```
 
-    This starts your local development/test server.
+    Start your local frontend development/test server.
 
     ```
     npm run dev
     ```
 
-5. Once you start your dev server you should see something like this:
+5. Once you start your frontend dev server you should see something like this:
 
     <img width="721" alt="image" src="https://github.com/user-attachments/assets/8715d813-6f17-4f19-8dde-9526df2730f6" />
 
     If you don't see this or run into any other issues along the way let me know.
 
-6. Navigate to that blue link in your browser of choice, preferrably Chrome.
+8. Navigate to that blue link in your browser of choice, preferrably Chrome.
 
-## Things to Note
+7. Go back to VS Code and open a new terminal tab.
 
-1. I currently have very little work done since most of my time was spent on starting things up. Navigate to the `Services` page to view what we have so far.
-2. You might need to create your own Google Maps API key to see the map on the `Services` page. We just have a standard map centered at Chicago for now as a placeholder. That requires a whole different process of setup but I might be able to help if you need to see it and run into any problems getting it to work.
-3. This is what it looks like on my machine at the moment:
+8. In this new terminal tab, run the following commands in order for the backend:
 
-> [!NOTE]  
-> Recently switched to OpenStreetMaps (OSM) which is free instead of the Google Maps API that may incure costs in the long run, since this is just a placeholder anyway. So the current map might look a little different from what you see below
+    Move to the backend directory
 
-<img width="1439" alt="image" src="https://github.com/user-attachments/assets/c1523e7c-de89-47b4-8994-f15454b430a3" />
+    ```
+    cd server
+    ```
 
-<img width="1431" alt="image" src="https://github.com/user-attachments/assets/5b3de176-b678-4552-8f89-2f3791ef3f3e" />
+    Installs all the necessary dependencies needed for the backend code to work.
+
+    ```
+    npm install
+    ```
+
+    Start your local backend development/test server.
+
+    ```
+    npm start
+    ```
+
+7. Once you start your backend dev server you should see something like this:
+
+    <img width="581" alt="image" src="https://github.com/user-attachments/assets/496d3ec2-ddd7-4e0f-97e3-6d5fdb2045d9" />
+
+
+    If you don't see this or run into any other issues along the way let me know.
+
+8. You should be all set to go now and make your frontend changes.
 
 ## Making Changes to the Main Site
 
@@ -96,7 +121,11 @@ For testing purposes for now, follow the following steps
 To push your local changes to this main repo, take the following steps in the VSCode terminal:
 
 > [!CAUTION]
-> Please only push things that work, so as not to break things. Try not to delete any already existing stuff without confirming your changes with the rest of the team. If you're not entirely sure of your changes, feel free to reach out to me.
+> Please only push things that work, so as not to break things. For right now, I'll advise not making any changes tgo the backend code in the `server` directory unless you're confident in your changes.
+>
+> Try not to delete any other already existing stuff without confirming your changes with the rest of the team. If you're not entirely sure of your changes, feel free to reach out to me or Hector.
+
+First, make sure your terminal in the root directory named `IDD` before continuing.
 
 1. Before you make any new changes, it's a good rule of thumb to pull the latest version of the repo so as not to cause conflicts. Simply do this using this command in the terminal
 
