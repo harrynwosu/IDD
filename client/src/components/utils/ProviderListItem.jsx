@@ -47,7 +47,7 @@ const ProviderItem = ({ provider, onClick }) => {
             <div className='provider-item-info-row'>
                 <div className='provider-item-label'>Address:</div>
                 <div className='provider-item-value'>
-                    {provider.street_address}
+                    {`${provider.street_address}, ${provider.city}, ${provider.state}, ${provider.zipcode}.`}
                 </div>
             </div>
             <div className='provider-item-info-row'>

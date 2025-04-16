@@ -332,7 +332,7 @@ export async function removeDuplicateProviders() {
     const client = await pool.connect();
 
     try {
-        // Step 1: Identify duplicate provider_name values
+        // Identify duplicate provider_name values
         const result = await client.query(
             `SELECT provider_name, COUNT(*) 
              FROM service_providers
@@ -343,11 +343,11 @@ export async function removeDuplicateProviders() {
         const duplicates = result.rows;
         console.log(`Found ${duplicates.length} provider_name duplicates`);
 
-        // Step 2: Iterate through each duplicate and remove them
+        // Iterate through each duplicate and remove them
         for (const duplicate of duplicates) {
             const provider_name = duplicate.provider_name;
 
-            // Step 3: Select the first row based on id to keep
+            // Select the first row based on id to keep
             const { rows: duplicateRows } = await client.query(
                 `SELECT id FROM service_providers
                  WHERE provider_name = $1
@@ -358,7 +358,7 @@ export async function removeDuplicateProviders() {
             // Keep the first row, delete the rest
             const idsToDelete = duplicateRows.slice(1).map((row) => row.id);
 
-            // Step 4: Delete the duplicates
+            // Delete the duplicates
             if (idsToDelete.length > 0) {
                 await client.query(
                     `DELETE FROM service_providers WHERE id = ANY($1)`,
