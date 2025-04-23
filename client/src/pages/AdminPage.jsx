@@ -212,47 +212,56 @@ function ProviderList({
                 </div>
             </div>
 
-            <table>
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Address</th>
-                        <th>City</th>
-                        <th>State</th>
-                        <th>Service Type</th>
-                        <th>Geocoded</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {providers.map((provider) => (
-                        <tr key={provider.id}>
-                            <td>{provider.provider_name}</td>
-                            <td>{provider.street_address}</td>
-                            <td>{provider.city}</td>
-                            <td>{provider.state}</td>
-                            <td>{truncateText(provider.service_type)}</td>
-                            <td>
-                                {provider.lat && provider.lon ? 'Yes' : 'No'}
-                            </td>
-                            <td>
-                                <button
-                                    className='edit-provider-button'
-                                    onClick={() => onEditProvider(provider.id)}
-                                >
-                                    Edit
-                                </button>
-                                <button
-                                    className='delete-provider-button'
-                                    onClick={() => handleDelete(provider.id)}
-                                >
-                                    Delete
-                                </button>
-                            </td>
+            <div className='table-container'>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Address</th>
+                            <th>City</th>
+                            <th>State</th>
+                            <th>Service Type</th>
+                            <th>Good Reviews</th>
+                            <th>Bad Reviews</th>
+                            <th>Actions</th>
                         </tr>
-                    ))}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        {providers.map((provider) => (
+                            <tr key={provider.id}>
+                                <td style={{ textAlign: 'left' }}>
+                                    {provider.provider_name}
+                                </td>
+                                <td>{provider.street_address}</td>
+                                <td>{provider.city}</td>
+                                <td>{provider.state}</td>
+                                <td>{truncateText(provider.service_type)}</td>
+                                <td>{provider.good_ratings}</td>
+                                <td>{provider.bad_ratings}</td>
+
+                                <td>
+                                    <button
+                                        className='edit-provider-button'
+                                        onClick={() =>
+                                            onEditProvider(provider.id)
+                                        }
+                                    >
+                                        Edit
+                                    </button>
+                                    <button
+                                        className='delete-provider-button'
+                                        onClick={() =>
+                                            handleDelete(provider.id)
+                                        }
+                                    >
+                                        Delete
+                                    </button>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
 
             {totalPages > 1 && (
                 <div className='pagination'>

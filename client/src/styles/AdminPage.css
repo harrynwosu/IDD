@@ -124,6 +124,12 @@
     border-color: #c0392b;
 }
 
+.table-container {
+    overflow-x: auto;
+    width: 100%;
+    white-space: nowrap;
+}
+
 table {
     width: 100%;
     border-collapse: collapse;
@@ -132,7 +138,7 @@ table {
 table th,
 table td {
     padding: 2rem 0.5rem;
-    text-align: left;
+    text-align: center;
     border-bottom: 1px solid #ddd;
 }
 
