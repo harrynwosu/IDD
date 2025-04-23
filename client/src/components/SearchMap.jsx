@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
+import Toast from './utils/Toast';
 import ProviderListView from './utils/ProviderListView';
 import { ThumbsUp, ThumbsDown } from 'lucide-react';
 
@@ -25,6 +26,13 @@ const defaultIcon = L.icon({
 const SearchMap = ({ activeView, filteredProviders, setFilteredProviders }) => {
     const [userLocation, setUserLocation] = useState(null);
     const [error, setError] = useState(null);
+
+    const [toast, setToast] = useState({
+        visible: false,
+        message: '',
+        type: 'success',
+        key: 0, // Add a key to force remounting
+    });
 
     // Load user location
     useEffect(() => {
@@ -87,7 +95,6 @@ const SearchMap = ({ activeView, filteredProviders, setFilteredProviders }) => {
                 }
 
                 const providers = await response.json();
-
                 setFilteredProviders(providers);
             } catch (error) {
                 console.error('Provider loading error:', error);
@@ -100,6 +107,77 @@ const SearchMap = ({ activeView, filteredProviders, setFilteredProviders }) => {
 
     const onProviderSelect = () => {
         return;
+    };
+
+    const showToast = (message, type = 'success') => {
+        setToast({
+            visible: true,
+            message,
+            type,
+            key: toast.key + 1,
+        });
+    };
+
+    const hideToast = () => {
+        setToast({ ...toast, visible: false });
+    };
+
+    const handleGoodRating = async (providerId) => {
+        try {
+            const response = await fetch(
+                `${
+                    import.meta.env.VITE_BACKEND_BASE_URL
+                }/api/providers/rate/good/${providerId}`,
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                }
+            );
+
+            if (!response.ok) {
+                throw new Error('Failed to update rating');
+            }
+
+            showToast('Thank you for your positive feedback!');
+        } catch (error) {
+            console.error('Error updating rating:', error);
+            showToast(
+                'Failed to submit your feedback. Please try again.',
+                'error'
+            );
+        }
+    };
+
+    const handleBadRating = async (providerId) => {
+        try {
+            const response = await fetch(
+                `${
+                    import.meta.env.VITE_BACKEND_BASE_URL
+                }/api/providers/rate/bad/${providerId}`,
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                }
+            );
+
+            if (!response.ok) {
+                throw new Error('Failed to update rating');
+            }
+
+            showToast(
+                'Thank you for your feedback. We appreciate your honesty.'
+            );
+        } catch (error) {
+            console.error('Error updating rating:', error);
+            showToast(
+                'Failed to submit your feedback. Please try again.',
+                'error'
+            );
+        }
     };
 
     const toTitleCase = (str) =>
@@ -248,12 +326,20 @@ const SearchMap = ({ activeView, filteredProviders, setFilteredProviders }) => {
                                             <button
                                                 aria-label='Thumbs up'
                                                 className='thumbs-up-icon'
+                                                onClick={() =>
+                                                    handleGoodRating(
+                                                        provider.id
+                                                    )
+                                                }
                                             >
                                                 <ThumbsUp />
                                             </button>
                                             <button
                                                 aria-label='Thumbs down'
                                                 className='thumbs-down-icon'
+                                                onClick={() =>
+                                                    handleBadRating(provider.id)
+                                                }
                                             >
                                                 <ThumbsDown />
                                             </button>
@@ -264,6 +350,17 @@ const SearchMap = ({ activeView, filteredProviders, setFilteredProviders }) => {
                         </Marker>
                     );
                 })}
+
+                <div className='toast-container'>
+                    {toast.visible && (
+                        <Toast
+                            key={toast.key}
+                            message={toast.message}
+                            type={toast.type}
+                            onClose={hideToast}
+                        />
+                    )}
+                </div>
             </MapContainer>
         </div>
     );

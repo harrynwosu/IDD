@@ -9,6 +9,8 @@ import {
     updateProvider,
     deleteProvider,
     geocodeAllProviders,
+    incrementGoodRatings,
+    incrementBadRatings,
 } from './database.js';
 
 const router = express.Router();
@@ -45,6 +47,31 @@ router.get('/', async (req, res) => {
     } catch (error) {
         console.error('Error returning provider data:', error);
         res.status(500).json({ error: 'Failed to fetch providers' });
+    }
+});
+
+// Feeback routes
+// Good feeback ✅
+router.post('/rate/good/:id', async (req, res) => {
+    try {
+        const providerId = req.params.id;
+        const updatedProvider = await incrementGoodRatings(providerId);
+        res.status(200).json(updatedProvider);
+    } catch (error) {
+        console.error('Error incrementing good rating:', error);
+        res.status(500).json({ error: 'Failed to update rating' });
+    }
+});
+
+// Bad feedback ❌
+router.post('/rate/bad/:id', async (req, res) => {
+    try {
+        const providerId = req.params.id;
+        const updatedProvider = await incrementBadRatings(providerId);
+        res.status(200).json(updatedProvider);
+    } catch (error) {
+        console.error('Error incrementing bad rating:', error);
+        res.status(500).json({ error: 'Failed to update rating' });
     }
 });
 

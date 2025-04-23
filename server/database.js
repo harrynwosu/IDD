@@ -64,8 +64,6 @@ export async function geocodeAllProviders() {
        OR last_geocoded < NOW() - INTERVAL '30 days'`
         );
 
-        console.log('query result', result);
-
         const providers = result.rows;
         console.log(`Found ${providers.length} providers to geocode`);
 
@@ -375,5 +373,62 @@ export async function removeDuplicateProviders() {
         console.error('Error during duplicate removal:', error.message);
     } finally {
         client.release();
+    }
+}
+
+// Increment the good ratings count for a provider
+export async function incrementGoodRatings(id) {
+    try {
+        const result = await pool.query(
+            `UPDATE service_providers 
+             SET good_ratings = good_ratings + 1
+             WHERE id = $1
+             RETURNING *`,
+            [id]
+        );
+
+        return result.rows[0];
+    } catch (error) {
+        console.error('Error incrementing good ratings:', error);
+        throw error;
+    }
+}
+
+// Increment the bad ratings count for a provider
+export async function incrementBadRatings(id) {
+    try {
+        const result = await pool.query(
+            `UPDATE service_providers 
+             SET bad_ratings = bad_ratings + 1
+             WHERE id = $1
+             RETURNING *`,
+            [id]
+        );
+
+        return result.rows[0];
+    } catch (error) {
+        console.error('Error incrementing bad ratings:', error);
+        throw error;
+    }
+}
+
+// Optional: Combined function to handle both rating types
+export async function updateProviderRating(id, ratingType) {
+    try {
+        const columnToUpdate =
+            ratingType === 'good' ? 'good_ratings' : 'bad_ratings';
+
+        const result = await pool.query(
+            `UPDATE service_providers 
+             SET ${columnToUpdate} = ${columnToUpdate} + 1
+             WHERE id = $1
+             RETURNING *`,
+            [id]
+        );
+
+        return result.rows[0];
+    } catch (error) {
+        console.error(`Error updating ${ratingType} ratings:`, error);
+        throw error;
     }
 }

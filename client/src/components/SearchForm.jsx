@@ -22,18 +22,24 @@ const SearchForm = ({ setFilteredProviders }) => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch('/data/geocoded-providers.json');
-                if (!response.ok) {
+                const geocoded_response = await fetch(
+                    '/data/geocoded-providers.json'
+                );
+                const providers_response = await fetch(
+                    `${import.meta.env.VITE_BACKEND_BASE_URL}/api/providers`
+                );
+                if (!providers_response.ok) {
                     throw new Error('Failed to fetch data');
                 }
 
-                const data = await response.json();
-                setProviders(data);
-                setFilteredProviders(data);
+                const geocoded_data = await geocoded_response.json();
+                const provider_data = await providers_response.json();
+                setProviders(provider_data);
+                setFilteredProviders(provider_data);
 
                 const uniqueServiceTypes = [
                     ...new Set(
-                        data.flatMap((item) => {
+                        provider_data.flatMap((item) => {
                             if (!item.service_type) {
                                 return [];
                             }
@@ -46,11 +52,13 @@ const SearchForm = ({ setFilteredProviders }) => {
                 ].sort();
 
                 const uniqueCounties = [
-                    ...new Set(data.map((item) => item.county).filter(Boolean)),
+                    ...new Set(
+                        provider_data.map((item) => item.county).filter(Boolean)
+                    ),
                 ].sort();
 
                 const uniqueZipCodes = [
-                    ...new Set(data.map((item) => item.zipcode)),
+                    ...new Set(geocoded_data.map((item) => item.zipcode)),
                 ].sort();
 
                 setServiceTypes(uniqueServiceTypes);
